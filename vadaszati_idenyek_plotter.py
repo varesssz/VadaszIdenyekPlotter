@@ -1,59 +1,72 @@
-
 import plotly.graph_objects as go
+from vadaszati_idenyek import ideny
 
-months = ["Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec","Jan","Feb"]
+# Iterate over every species
+for select in range(7):
+    # Import seasons from a different file
+    (months, species, subspecies_colors, strip_size) = ideny(select)
 
-subspecies_colors = {                                           #3,4,5,6,7,8,9,A,B,C,1,2
-    "ünő":          ["#8ba02c" if x else "#dddddd" for x in [0,0,1,1,1,1,1,1,1,1,1,1]],
-    "borjú":        ["#8ba02c" if x else "#dddddd" for x in [1,1,0,0,0,0,1,1,1,1,1,1]],
-    "tehén":        ["#c02828" if x else "#dddddd" for x in [0,0,0,0,0,0,1,1,1,1,1,1]],
-    "csapos bika":  ["#a0472c" if x else "#dddddd" for x in [1,0,0,0,0,0,1,1,1,1,1,1]],
-    "selejt bika":  ["#a0472c" if x else "#dddddd" for x in [0,0,0,0,0,0,1,1,1,1,1,0]],
-    "érett bika":   ["#a0472c" if x else "#dddddd" for x in [0,0,0,0,0,0,1,1,0,0,0,0]],
-}
-
-fig = go.Figure()
-
-
-for idx, (subspecies, colors) in enumerate(subspecies_colors.items()):
-    fig.add_trace(go.Barpolar(
-        r=[1]*12,
-        theta=[15 + i*30 for i in range(12)],  # Offset by 15 degrees
-        width=[30]*12,
-        base=[idx]*12,
-        marker_color=colors,
-        marker_line_color="white",
-        marker_line_width=1,
-        opacity=1.0,
-        name=subspecies,
-        hoverinfo="none",
-    ))
-    # Add a label for each ring at angle 0 (top)
-    fig.add_trace(go.Scatterpolar(
-        r=[idx + 0.5],
-        theta=[190],
-        mode="text",
-        text=[subspecies],
-        textfont=dict(size=16, color="white", family="Arial Black"),
-        showlegend=False,
-        hoverinfo="none",
-    ))
-
-
-fig.update_layout(
-    polar=dict(
-        angularaxis=dict(
-            tickmode="array",
-            tickvals=[15 + i*30 for i in range(12)],  # Offset by 15 degrees
-            ticktext=months,
-            direction="clockwise"
+    # Create a figure and update layout
+    fig = go.Figure()
+    fig.update_layout(
+        title="%s vadászati idényei" % species,
+        polar=dict(
+            angularaxis=dict(
+                tickmode="array",
+                tickvals=[15 + i*30 for i in range(12)],  # positions of the twelve months' ticks
+                ticktext=months,
+                direction="clockwise"
+            ),
+            radialaxis=dict(visible=False, range=[0, len(subspecies_colors)]),  # Adjust range for number of subspecies
+            hole=1-strip_size,  # 100% - (strip size) of plot radius is empty
         ),
-        radialaxis=dict(visible=False, range=[0, 6]),  # Adjust range for hole size
-        hole=0.4  # 0.4 = 40% of plot radius is empty
-    ),
-    showlegend=False,
-    title="Gímszarvas vadászati idények",
-    font=dict(size=16, color="black", family="Arial Black"),
-)
+        font=dict(
+            family='Arial',
+            size=18,
+            color='black',
+        ),
+        showlegend=False,
+    )
 
-fig.show()
+    # Interate over the subspecies and the season data (colors)
+    for idx, (subspecies, colors) in enumerate(subspecies_colors.items()):
+        # Set default strip segments
+        thetas = [15 + i*30 for i in range(12)]  # positions of the twelve 30° wide segments (offset by 15°)
+        widths = [30]*12  # twelve 30° wide segments
+        
+        # Bisect a segment if a subspecie's season starts in the middle of the month
+        if colors[1] is not None:
+            ind = months.index(colors[1])  # find the segment
+            thetas.insert(ind+1, 15+ind*30+7.5)  # insert a new segment
+            thetas[ind] = thetas[ind]-7.5  # make the original segment thiner
+            widths.insert(ind+1, 15)  # insert a new segment
+            widths[ind] = 15  # make the original segment thiner
+        
+        # Add a trace to the plot
+        fig.add_trace(go.Barpolar(
+            r=[1]*len(thetas),
+            theta=thetas,
+            width=widths,
+            base=[idx]*len(thetas),
+            marker_color=colors[0],
+            marker_line_color="white",
+            marker_line_width=1,
+            opacity=1.0,
+            name=subspecies,
+            hoverinfo="none",
+        ))
+        
+        # Add a label for each ring at the bottom (180°)
+        fig.add_trace(go.Scatterpolar(
+            r=[idx + 0.5],
+            theta=[180],
+            mode="text",
+            text=[subspecies],
+            textposition="middle center",
+            textfont=dict(size=16, color="#ffffff", shadow="auto", family="Arial"),
+            showlegend=False,
+            hoverinfo="none",
+        ))
+
+    # Show figure on browser
+    fig.show()
