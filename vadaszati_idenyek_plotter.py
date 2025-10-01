@@ -2,14 +2,14 @@ import plotly.graph_objects as go
 from vadaszati_idenyek import ideny
 
 # Iterate over every species
-for select in range(7):
+for select in range(9):
     # Import seasons from a different file
     (months, species, subspecies_colors, strip_size) = ideny(select)
 
     # Create a figure and update layout
     fig = go.Figure()
     fig.update_layout(
-        title="%s vadászati idényei" % species,
+        margin=dict(l=20, r=20, t=50, b=50),
         polar=dict(
             angularaxis=dict(
                 tickmode="array",
@@ -26,6 +26,17 @@ for select in range(7):
             color='black',
         ),
         showlegend=False,
+    )
+    
+    # Add the species' name in the middle of the polar plot
+    fig.add_annotation(
+        text=species,
+        x=0.5,
+        y=0.5,
+        font=dict(size=30, color="black"),
+        showarrow=False,
+        xref="paper",
+        yref="paper"
     )
 
     # Interate over the subspecies and the season data (colors)
@@ -63,7 +74,7 @@ for select in range(7):
             mode="text",
             text=[subspecies],
             textposition="middle center",
-            textfont=dict(size=16, color="#ffffff", shadow="auto", family="Arial"),
+            textfont=dict(size=18, color="#ffffff", shadow="auto", family="Arial"),
             showlegend=False,
             hoverinfo="none",
         ))
