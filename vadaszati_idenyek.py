@@ -27,6 +27,8 @@ def ideny(
                 "érett bika":                   (["#a0472c" if x else "#dddddd" for x in [0,0,0,0,0,0,1,1,0,0,0,0]], None),
             }
             strip_size = 0.6
+            font_size = 20
+            picture_size_px = (760, 760)
         case 1:
             species = "Dámszarvas"
             subspecies_colors = {                                                            #3,4,5,6,7,8,9,A,B,C,1,2
@@ -38,6 +40,8 @@ def ideny(
                 "érett bika":                   (["#a0472c" if x else "#dddddd" for x in [0,0,0,0,0,0,0,1,1,0,0,0]], None),
             }
             strip_size = 0.6
+            font_size = 20
+            picture_size_px = (760, 760)
         case 2:
             species = "Őz"
             subspecies_colors = {                                                            #3,4,5,6,7,8,9,A,B,C,1,2
@@ -46,6 +50,8 @@ def ideny(
                 "bak":                          (["#a0472c" if x else "#dddddd" for x in [0,0,1,1,1,1,1,1,0,0,0,0,0]], "Ápr"),
             }
             strip_size = 0.4
+            font_size = 22
+            picture_size_px = (640, 640)
         case 3:
             species = "Muflon"
             subspecies_colors = {                                                            #3,4,5,6,7,8,9,A,B,C,1,2
@@ -55,6 +61,8 @@ def ideny(
                 "kos":                          (["#a0472c" if x else "#dddddd" for x in [1,1,1,1,1,1,1,1,1,1,1,1]], None),
             }
             strip_size = 0.5
+            font_size = 22
+            picture_size_px = (640, 640)
         case 4:
             species = "Vaddisznó"
             subspecies_colors = {                                                            #3,4,5,6,7,8,9,A,B,C,1,2
@@ -64,6 +72,8 @@ def ideny(
                 "kan":                          (["#a0472c" if x else "#dddddd" for x in [1,1,1,1,1,1,1,1,1,1,1,1]], None),
             }
             strip_size = 0.5
+            font_size = 22
+            picture_size_px = (640, 640)
         case 5:
             species = "Szikaszarvas"
             subspecies_colors = {                                                            #3,4,5,6,7,8,9,A,B,C,1,2
@@ -73,6 +83,8 @@ def ideny(
                 "bika":                         (["#a0472c" if x else "#dddddd" for x in [1,1,1,1,1,1,1,1,1,1,1,1]], None),
             }
             strip_size = 0.5
+            font_size = 22
+            picture_size_px = (640, 640)
         case 6:
             species = "Apróvadfajok"
             subspecies_colors = {                                                            #3,4,5,6,7,8,9,A,B,C,1,2
@@ -83,6 +95,8 @@ def ideny(
                 "mezei nyúl":                   (["#a0472c" if x else "#dddddd" for x in [0,0,0,0,0,0,0,1,1,1,0,0]], None),
             }
             strip_size = 0.6
+            font_size = 20
+            picture_size_px = (740, 740)
         case 7:
             species = "Apróvadfajok"
             subspecies_colors = {                                                            #3,4,5,6,7,8,9,A,B,C,1,2
@@ -98,6 +112,8 @@ def ideny(
                 "erdei szalonka":               (["#8ba02c" if x else "#dddddd" for x in [0,0,0,0,0,0,0,0,0,0,0,0]], None),
             }
             strip_size = 0.7
+            font_size = 18
+            picture_size_px = (820, 820)
         case 8:
             species = "Egyéb apróvadfajok"
             subspecies_colors = {                                                            #3,4,5,6,7,8,9,A,B,C,1,2
@@ -114,7 +130,9 @@ def ideny(
                 "borz  [9]":                    (["#a0472c" if x else "#dddddd" for x in [0,0,0,0,1,1,1,1,1,1,1,1]], None),
             }
             strip_size = 0.7
+            font_size = 18
+            picture_size_px = (980, 980)
         case _:
             raise ValueError("No species got selected")
 
-    return (months, species, subspecies_colors, strip_size)
+    return (months, species, subspecies_colors, strip_size, font_size, picture_size_px)

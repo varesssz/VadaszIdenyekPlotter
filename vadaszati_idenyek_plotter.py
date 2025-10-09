@@ -2,9 +2,10 @@ import plotly.graph_objects as go
 from vadaszati_idenyek import ideny
 
 # Iterate over every species
-for select in range(9):
+for select in range(1):
+    select = 8
     # Import seasons from a different file
-    (months, species, subspecies_colors, strip_size) = ideny(select)
+    (months, species, subspecies_colors, strip_size, font_size, picture_size_px) = ideny(select)
 
     # Create a figure and update layout
     fig = go.Figure()
@@ -74,10 +75,16 @@ for select in range(9):
             mode="text",
             text=[subspecies],
             textposition="middle center",
-            textfont=dict(size=18, color="#ffffff", shadow="auto", family="Arial"),
+            textfont=dict(size=font_size, color="#ffffff", shadow="auto", family="Arial"),
             showlegend=False,
             hoverinfo="none",
         ))
 
     # Show figure on browser
-    fig.show()
+    # fig.show()
+    fig.write_image(
+        file=".\\output\\%02d_%s.png" % (select+1, species),
+        format="png",
+        width=picture_size_px[0],
+        height=picture_size_px[1],
+    )
